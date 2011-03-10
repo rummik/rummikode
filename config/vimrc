@@ -1,0 +1,63 @@
+" Dark background
+set background=dark
+
+" Do not want complete Vi compatibility
+set nocompatible
+
+" More powerful backspace
+set backspace=indent,eol,start
+
+" Mouse
+set mouse=a
+
+" Spelling
+set spelllang=en_us
+
+" Title
+set title
+
+" Set where to keep backups and swap files
+set nobackup
+"set backup
+"set backupdir=~/.vim/backup
+set directory=~/.vim/tmp
+
+" Syntax
+if &t_Co > 2 || has("gui_running")
+  syntax on
+endif
+
+" Indenting
+filetype plugin indent on
+
+set noautoindent
+set nosmartindent
+set cindent
+
+" Folding
+set foldmethod=marker " indent
+set foldcolumn=1
+
+" PHP
+let php_sql_query         = 1
+let PHP_removeCRwhenUnix  = 1
+let PHP_default_indenting = 1
+let php_show_semicolon    = 0
+
+" JavaScript
+let javaScript_alternateSwitch = 1
+
+" JSON
+au BufNewFile,BufRead *.json setf javascript
+au BufNewFile,BufRead *.json set filetype=javascript
+
+au BufNewFile,BufRead .tmux.conf  set filetype=tmux
+
+" HTML Syntax Conversion Options
+let html_use_css	= 1
+let html_no_hyperlinks	= 1
+let use_xhtml		= 1
+let html_ignore_folding	= 1
+if exists('html_no_pre')
+	unlet html_no_pre
+endif
