@@ -4,15 +4,16 @@ $VERSION = '0.8.0';
 %IRSSI = (
 	authors		=> 'Kim Zick',
 	name		=> 'Away Responder',
-	description	=> 'Responds with current away message when hilighted.',
+	description	=> 'Responds with current away message when highlighted.',
 	license		=> 'GPL v2',
 	url		=> 'http://gitorious.org/rummikode/default',
-	credits		=> 'Loosely based on away_hilight_notice',
+	credits		=> 'Loosely based on away_hilight_notice by Geert Hauwaerts <geert@irssi.org>',
+	credits_url	=> 'http://irssi.hauwaerts.be/away_hilight_notice.pl',
 );
 
 use strict;
 
-my ($timeout, %hilight) = (600, undef);
+my ($timeout, %highlight) = (600, undef);
 
 Irssi::settings_add_int('lookandfeel', 'away_response_timeout', $timeout);
 
@@ -32,18 +33,18 @@ Irssi::signal_add('print text', sub {
 
 		$light = lc "$server->{'tag'}/$target";
 
-		if (%hilight->{$light} && time - %hilight->{$light} >= $timeout) {
-			%hilight->{$light} = undef;
+		if (%highlight->{$light} && time - %highlight->{$light} >= $timeout) {
+			%highlight->{$light} = undef;
 		}
 
-		if ($server && $server->{'usermode_away'} && !%hilight->{$light}) {
-			%hilight->{$light} = time;
+		if ($server && $server->{'usermode_away'} && !%highlight->{$light}) {
+			%highlight->{$light} = time;
 			$server->command("^$command $target Away: $server->{'away_reason'}");
 		}
 	}
 });
 
-Irssi::signal_add('away mode changed', sub { %hilight = (); });
+Irssi::signal_add('away mode changed', sub { %highlight = (); });
 
 sub timeout {
         $timeout = Irssi::settings_get_int('away_response_timeout');

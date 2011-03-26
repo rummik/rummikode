@@ -7,7 +7,7 @@ $VERSION = '0.7.0';
 	description	=> 'Automatically set away status when tmux or screen detaches',
 	license		=> 'GPL v2',
 	url		=> 'http://gitorious.org/rummikode/default',
-	credits		=> 'Loosely based on screen_away'
+	credits		=> 'Loosely based on screen_away by Andreas "ads" Scherbaum <ads@ufp.de>'
 );
 
 # known bugs:
