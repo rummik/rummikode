@@ -1,7 +1,7 @@
 " Dark background
 set background=dark
 
-" Do not want complete Vi compatibility
+" Don't want complete Vi compatibility
 set nocompatible
 
 " More powerful backspace
@@ -30,26 +30,52 @@ endif
 " Indenting
 filetype plugin indent on
 
-set noautoindent
-set nosmartindent
-set cindent
+set autoindent
+set smartindent
+set nocindent
 
 " Folding
-set foldmethod=marker " indent
-set foldcolumn=1
+set foldmethod=syntax
+set foldcolumn=4
+
+" Line numbers
+set number
+
+" Perl
+let perl_fold        = 1
+let perl_fold_blocks = 1
+
 
 " PHP
-let php_sql_query         = 1
-let PHP_removeCRwhenUnix  = 1
-let PHP_default_indenting = 1
-let php_show_semicolon    = 0
+let php_sql_query          = 1
+let PHP_removeCRwhenUnix   = 1
+let PHP_default_indenting  = 1
+let php_show_semicolon     = 0
+let php_folding            = 2
+let php_parent_error_open  = 1
+let php_parent_error_close = 1
 
-" JavaScript
+" Javascript
 let javaScript_alternateSwitch = 1
+let javaScript_fold            = 1
+
+" Adobe's MXML
+au BufNewFile,BufRead *.mxml set filetype=mxml
+au BufNewFile,BufRead *.as   set filetype=actionscript
+
+" EJScript
+au BufNewFile,BufRead *.es   setf ejscript
+au BufNewFile,BufRead *.es   set filetype=ejscript
 
 " JSON
 au BufNewFile,BufRead *.json setf javascript
 au BufNewFile,BufRead *.json set filetype=javascript
+
+" Remark = *.rmk || *.rek
+au BufNewFile,BufRead *.rmk  set filetype=remark
+au BufNewFile,BufRead *.rek  set filetype=remark
+
+au BufNewFile,BufRead *.pcre  set filetype=pcre
 
 au BufNewFile,BufRead .tmux.conf  set filetype=tmux
 
