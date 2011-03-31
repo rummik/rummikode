@@ -34,34 +34,25 @@ set autoindent
 set smartindent
 set nocindent
 
-" Folding
-set foldmethod=syntax
-set foldcolumn=4
-
 " Line numbers
 set number
 
 " Perl
-let perl_fold        = 1
-let perl_fold_blocks = 1
-
+"let perl_fold        = 1
+"let perl_fold_blocks = 1
 
 " PHP
 let php_sql_query          = 1
 let PHP_removeCRwhenUnix   = 1
 let PHP_default_indenting  = 1
 let php_show_semicolon     = 0
-let php_folding            = 2
-let php_parent_error_open  = 1
-let php_parent_error_close = 1
+"let php_folding            = 2
+"let php_parent_error_open  = 1
+"let php_parent_error_close = 1
 
 " Javascript
 let javaScript_alternateSwitch = 1
-let javaScript_fold            = 1
-
-" Adobe's MXML
-au BufNewFile,BufRead *.mxml set filetype=mxml
-au BufNewFile,BufRead *.as   set filetype=actionscript
+"let javaScript_fold            = 1
 
 " EJScript
 au BufNewFile,BufRead *.es   setf ejscript
@@ -75,10 +66,6 @@ au BufNewFile,BufRead *.json set filetype=javascript
 au BufNewFile,BufRead *.rmk  set filetype=remark
 au BufNewFile,BufRead *.rek  set filetype=remark
 
-au BufNewFile,BufRead *.pcre  set filetype=pcre
-
-au BufNewFile,BufRead .tmux.conf  set filetype=tmux
-
 " HTML Syntax Conversion Options
 let html_use_css	= 1
 let html_no_hyperlinks	= 1
@@ -87,3 +74,20 @@ let html_ignore_folding	= 1
 if exists('html_no_pre')
 	unlet html_no_pre
 endif
+
+" Folding
+set foldmethod=indent
+set foldcolumn=1
+set foldlevel=1
+set foldtext=MyFoldText()
+
+function! MyFoldText()
+	let n = v:foldend - v:foldstart + 1
+	let i = indent(v:foldstart)
+	let istr = ''
+	while i > 0
+		let istr = istr . ' '
+		let i = i - 1
+	endwhile
+	return istr . "+-" . v:folddashes . " " . n . " lines "
+endfunction
