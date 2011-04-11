@@ -9,7 +9,7 @@ bindkey -v
 
 # completion
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}'
-zstyle :compinstall filename "/home/$USER/.zshrc"
+zstyle :compinstall filename '/home/rummik/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -49,12 +49,16 @@ precmd() {
 [[ ! $TMUX = '' && -e ~/.zshbindkeys ]] && source ~/.zshbindkeys
 
 # path
+export PATH="$PATH:$HOME/.bin:$HOME/bin:$HOME/source/android/bin"
 export EDITOR="vim"
 export BROWSER="/usr/bin/elinks"
-export TERM=xterm
+export TZ='America/New_York'
+export PERL5LIB="/home/$user/perl/share/perl/5.8.4/:/home/$user/perl/lib/perl/5.8.4/"
 
 # aliases
-alias 'ls'='ls --color=auto'
+[[ `uname -s` = 'NetBSD' ]] || alias 'ls'='ls --color=auto'
 alias 'll'='ls -l'
 alias 'vi'='vim'
 alias 'emacs'='echo'
+alias 'zblog'='~/source/zblog/zblog'
+alias 'isup'='for j in {agnus.datazap.net,hope.datazap.net,faith.datazap.net,imagehostplus.com}; do if [[ ! -z $(curl -s $j | grep -i "<html") ]]; then print "[good] $j"; else print "[fail] $j"; fi done'
