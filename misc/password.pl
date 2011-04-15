@@ -2,7 +2,7 @@
 # This program comes without any warranty, to the extent permitted by law.
 # License: http://gitorious.org/rummikode/default/blobs/master/LICENSE
 
-my $version = 1.83;
+my $version = 1.86;
 
 
 # ==================================================== #
@@ -18,7 +18,7 @@ my %config = (
 	# a string that only you know, this will be used in generating the password(s)
 	'secret'   => '',
 
-	'length'   => 15,             # default password length
+	'length'   => 8,              # default password length
 	'safe'     => 1,              # generate passwords that should be safe everywhere
 	'count'    => 5               # number of passwords to generate
 );
@@ -52,17 +52,33 @@ my %config = (
 
 use strict;
 use Switch 'Perl6';
+use vars qw($name);
 
-for ($ARGV[0 .. $#ARGV]) {
+$name = $0;
+$name =~ s/^.*\/([^\/]+)$/$1/;
+
+foreach (@ARGV) {
 	given ($_) {
-		when /-v|--version/ {
-			$_ = $0; s/^.*\/([^\/]+)$/$1/;
-			print "$_: Version: $version\n";
+		when /^(-v|--version)$/ {
+			print "$name: Version: $version\n";
 			exit 0;
 		}
 
-		default {
-			#print $_, "\n";
+		when /^(-l=|--length=)\d+$/ {
+			$config{'length'} = $1 if (m/(\d+)$/);
+		}
+
+		when /^(-c=|--count=)\d+$/ {
+			$config{'count'} = $1 if (m/(\d+)$/);
+		}
+
+		when /^--(un)?safe$/ {
+			$config{'safe'} = !m/un/;
+		}
+
+		when m/^-+[^=]+/ {
+			print "$name: Unknown argument: ", m/(-+[^=]+)/, "\n";
+			exit 1;
 		}
 	}
 }
@@ -74,9 +90,7 @@ use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);
 use Digest::MD5 qw(md5 md5_hex md5_base64);
 use Convert::UU qw(uudecode uuencode);
 
-
-my (%replace, $login, $domain, $secret, $length, $hash);
-
+use vars qw(%replace $login $domain $secret $length $hash);
 
 if (!$config{'auto'}) {
 	$login  = &read('Login:', $config{'login'});
@@ -101,7 +115,7 @@ print "\n", BOLD, YELLOW, '== PASSWORDS ==', RESET, "\n";
 for (0 .. $config{'count'}-1) {
 	$hash = &hash($_);
 
-	print BOLD, BLUE, $_ + 1, ': ', RED, substr($hash, int((length($hash)-$length)/2), $length), RESET, "\n";
+	print BOLD, BLUE, $_ + 1, ': ', RED, substr($hash, int((length($hash) - $length) / 2), $length), RESET, "\n";
 }
 
 
@@ -142,19 +156,14 @@ sub hash {
 }
 
 sub trim {
-	foreach (0 .. $#_) {
-		@_[$_] =~ s/^\s+|\s+$//;
-	}
-
-	return @_;
+	@_[$_] =~ s/^\s+|\s+$// foreach (0 .. $#_); @_;
 }
 
 sub mix {
-	return join '', sort split(/(.{1,4})/, shift);
+	join '', sort split(/(.{1,4})/, shift);
 }
 
 sub clean {
 	my $_ = shift;
-	tr{`@\-,<%&();#!.$="?\\+:*[]> \n'/^_}{a-cdefghijklmnopqrstuvwxyzABC_} if ($config{'safe'} || (tr[ \n][{}] && 0));
-	return $_;
+	tr{`@\-,<%&();#!.$="?\\+:*[]> \n'/^_}{a-cdefghijklmnopqrstuvwxyzABC_} if ($config{'safe'} || (tr[ \n][{}] && 0)); $_;
 }
