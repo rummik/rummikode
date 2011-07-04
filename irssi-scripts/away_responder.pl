@@ -1,6 +1,6 @@
 use Irssi;
 use vars qw($VERSION %IRSSI);
-$VERSION = '0.8.0';
+$VERSION = '0.8.1';
 %IRSSI = (
 	authors		=> 'Kim Zick',
 	name		=> 'Away Responder',
@@ -44,10 +44,9 @@ Irssi::signal_add('print text', sub {
 	}
 });
 
-Irssi::signal_add('away mode changed', sub { %highlight = (); });
-
-sub timeout {
+sub setup {
         $timeout = Irssi::settings_get_int('away_response_timeout');
 }
 
-Irssi::signal_add('setup changed', \&timeout); &timeout;
+Irssi::signal_add('setup changed', \&setup); &setup;
+Irssi::signal_add('away mode changed', sub { %highlight = (); });
