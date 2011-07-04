@@ -2,8 +2,7 @@
 # This program comes without any warranty, to the extent permitted by law.
 # License: http://gitorious.org/rummikode/default/blobs/master/LICENSE
 
-my $version = 1.86;
-
+my $version = 1.91;
 
 # ==================================================== #
 #  password generator configuration (yes, edit this!)  #
@@ -12,7 +11,7 @@ my $version = 1.86;
 my %config = (
 	'auto'     => 0,              # autofill from config
 	'request'  => 1,              # request secret password
-	'hashmode' => 2,              # hash mode (1, 2)
+	'hashmode' => 2,              # hash mode (1, 2, 3)
 	'login'    => trim(`whoami`), # default login name
 
 	# a string that only you know, this will be used in generating the password(s)
@@ -22,6 +21,8 @@ my %config = (
 	'safe'     => 1,              # generate passwords that should be safe everywhere
 	'count'    => 5               # number of passwords to generate
 );
+
+
 
 
 
@@ -142,8 +143,13 @@ sub hash {
 
 	given ($config{'hashmode'}) {
 		when 1 {
-			$string  = "$login\n$domain\n$secret\n" . $input;
+			$string  = "$login\n$domain\n$secret\n$input";
 			$hash = substr(uuencode(sha1_hex($string) . md5_hex($string)), 22, -4);
+		}
+
+		when 3 { # not recommended yet
+			$string = $secret . $domain . $login . $input;
+			$hash = substr(uuencode(sha1($string) . md5_base64($string) . md5_hex($string) . sha1_hex($string) . sha1_base64($string) . md5($string)), 22, -4);
 		}
 
 		default {
