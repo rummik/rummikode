@@ -50,6 +50,8 @@ let php_show_semicolon     = 0
 "let php_parent_error_open  = 1
 "let php_parent_error_close = 1
 
+let g:debuggerPort = 9999
+
 " Javascript
 let javaScript_alternateSwitch = 1
 "let javaScript_fold            = 1
@@ -81,6 +83,7 @@ set foldcolumn=1
 set foldlevel=1
 set foldtext=MyFoldText()
 
+" Position fold at indent
 function! MyFoldText()
 	let n = v:foldend - v:foldstart + 1
 	let i = indent(v:foldstart)

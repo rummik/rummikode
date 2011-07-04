@@ -55,5 +55,20 @@ export TZ='America/New_York'
 
 # aliases
 [[ `uname -s` = 'NetBSD' ]] || alias 'ls'='ls --color=auto'
-alias 'vi'='vim'
-alias 'emacs'='echo'
+alias ll='ls -l'
+alias vi='vim'
+alias emacs='echo'
+alias links='elinks'
+
+# load some other things
+[[ -e ~/.zsharc ]] && source ~/.zsharc
+
+# locale
+export LANG=en_US.UTF-8
+export LC_ALL=$LANG
+
+# path
+export PATH=$PATH:~/.bin
+
+# tmux things
+[[ $(tty | grep 'tty*') = '' && ! $TERM = 'screen' && $TMUX = '' ]] && exec tmux

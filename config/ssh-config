@@ -1,0 +1,7 @@
+serveraliveinterval 30
+compression yes
+#visualhostkey yes
+
+controlmaster auto
+controlpath ~/.ssh/master-%r@%h:%p
+controlpersist yes

@@ -1,0 +1,5 @@
+soundDirectory	= ""
+soundCmd	= "~/.bin/aplay.sh"
+
+Bell() 			"~/.sound/beep.wav"
+Bell(ImAlive)		"~/.sound/beep2.wav"
