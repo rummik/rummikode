@@ -7,7 +7,6 @@
 	 *          https://www.google.com/recaptcha/admin/create
 	 *
 	 * Copyright (c) 2007 reCAPTCHA -- http://recaptcha.net
-	 * Copyright (c) 2010 Kim Zick -- http://www.rummik.com/
 	 * AUTHORS:
 	 *   Mike Crawford
 	 *   Ben Maurer
