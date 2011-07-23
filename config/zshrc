@@ -71,4 +71,4 @@ export LC_ALL=$LANG
 export PATH=$PATH:~/.bin
 
 # tmux things
-[[ $(tty | grep 'tty*') = '' && ! $TERM = 'screen' && $TMUX = '' ]] && exec tmux
+[[ -z $(tty | grep 'tty*') && -z $TMUX && -z $(tmux ls 2>/dev/null | grep attached) ]] && (tmux attach || tmux)
