@@ -2,7 +2,7 @@ Math.eval = function(expression, precision) {
 	var i, p, start, regex, last, operator, operation, expr,
 	    number = '([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+))',
 	    operators = {
-		'^': function(a, b) { return a ^ b; },
+		'^': function(a, b) { return Math.pow(a, b); },
 		'*': function(a, b) { return a * b; },
 		'/': function(a, b) { return a / b; },
 		'+': function(a, b) { return a + b; },
