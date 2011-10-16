@@ -59,6 +59,7 @@ alias ll='ls -l'
 alias vi='vim'
 alias emacs='echo'
 alias links='elinks'
+alias top='htop'
 
 # load some other things
 [[ -e ~/.zsharc ]] && source ~/.zsharc
