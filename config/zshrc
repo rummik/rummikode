@@ -45,31 +45,37 @@ precmd() {
 	esac
 }
 
-# include some bound keys from elsewhere
-[[ ! $TMUX = '' && -e ~/.zshbindkeys ]] && source ~/.zshbindkeys
-
 # path
-export EDITOR="vim"
-export BROWSER="/usr/bin/elinks"
-export TZ='America/New_York'
+export PATH=$PATH:~/.bin
 
-# aliases
-[[ `uname -s` = 'NetBSD' ]] || alias 'ls'='ls --color=auto'
-alias ll='ls -l'
-alias vi='vim'
-alias emacs='echo'
-alias links='elinks'
-alias top='htop'
-
-# load some other things
-[[ -e ~/.zsharc ]] && source ~/.zsharc
+# some useful environment settings
+export EDITOR=vim
+export BROWSER=elinks
+export TZ=America/New_York
 
 # locale
 export LANG=en_US.UTF-8
 export LC_ALL=$LANG
 
-# path
-export PATH=$PATH:~/.bin
+# aliases
+[[ `uname -s` = 'NetBSD' ]] || alias 'ls'='ls --color=auto'
+alias ll='ls -l'
+alias vi=vim
+alias links=elinks
+alias top=htop
+
+# tail-like function
+tailf() { tail -f $1 | while read j; do print -n "\n$j"; done }
+
+# some fun
+emacs() { echo -n "\n$1\n" }
+xemacs() { kdialog --error "\n$1\n" }
+
+# load some user definitions
+[[ -e ~/.zsh_userrc ]] && source ~/.zsh_userrc
+
+# include some bound keys from elsewhere
+[[ ! $TMUX = '' && -e ~/.zshbindkeys ]] && source ~/.zshbindkeys
 
 # tmux things
 [[ -z $(tty | grep 'tty*') && ! $TERM = 'screen' && -z $(tmux ls 2>/dev/null | grep attached) ]] && (tmux attach || tmux)
