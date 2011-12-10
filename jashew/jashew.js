@@ -3,7 +3,6 @@ var HTTP = require('http'),
     exec = require('child_process').exec,
     request = {
 	host: 'mobile.vzw.com',
-	//host: 'localhost',
 	port: 80,
 	path: '/vzam/servlet/vzam?client=chrome&serviceName=accountInfo&subServiceName=poundData',
 	headers: { 'User-Agent': 'cashew 0.0.1' }
@@ -11,7 +10,6 @@ var HTTP = require('http'),
 
 var main, lastupdate = 0;
 setInterval(main = function() {
-	try {
 	HTTP.get(request, function(res) {
 		res.on('data', function(chunk) {
 			var total = 0, remaining = 0, plan, response = JSON.parse(chunk);
@@ -58,10 +56,6 @@ setInterval(main = function() {
 			});
 		});
 	});
-	} catch (e) {
-		console.log('Could not connect to server.');
-		process.exit();
-	}
 }, 300 * 1000);
 
 main();
