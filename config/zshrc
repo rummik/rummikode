@@ -18,6 +18,9 @@ compinit
 autoload colors
 [[ $terminfo[colors] -ge 8 ]] && colors
 
+# fish-like syntax highlighting: https://github.com/zsh-users/zsh-syntax-highlighting
+[[ -e ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # generate some color
 function colorize {
 	[[ $1 == 'rummik' ]] && print green && return
@@ -78,4 +81,4 @@ xemacs() { kdialog --error "\n$1\n" }
 [[ ! $TMUX = '' && -e ~/.zshbindkeys ]] && source ~/.zshbindkeys
 
 # tmux things
-[[ -z $(tty | grep 'tty*') && ! $TERM = 'screen' && -z $(tmux ls 2>/dev/null | grep attached) ]] && (tmux attach || tmux)
+[[ -z $(tty | grep 'tty*') && -z $(sudo -u "#${SUDO_UID:-$UID}" tmux ls 2>/dev/null | grep attached) ]] && (tmux attach || tmux)
