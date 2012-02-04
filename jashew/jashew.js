@@ -1,6 +1,6 @@
 #!/usr/bin/node
-var HTTP = require('http'),
-    exec = require('child_process').exec,
+var HTTP    = require('http'),
+    exec    = require('child_process').exec,
     request = {
 	host: 'mobile.vzw.com',
 	port: 80,
@@ -8,8 +8,9 @@ var HTTP = require('http'),
 	headers: { 'User-Agent': 'cashew 0.0.1' }
     };
 
-var main, lastupdate = 0;
-setInterval(main = function() {
+(function() {
+	var lastupdate = 0;
+
 	HTTP.get(request, function(res) {
 		res.on('data', function(chunk) {
 			var total = 0, remaining = 0, plan, response = JSON.parse(chunk);
@@ -56,6 +57,7 @@ setInterval(main = function() {
 			});
 		});
 	});
-}, 300 * 1000);
 
-main();
+	// call ourselves in five minutes
+	setTimeout(arguments.callee, 300 * 1000);
+})();
